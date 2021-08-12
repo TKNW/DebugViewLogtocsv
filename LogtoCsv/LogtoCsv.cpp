@@ -11,6 +11,7 @@ vector<string> tokenize(
 {
 	sregex_token_iterator it{ str.begin(),str.end(), re, -1 },end;
 	vector<string> tokenized(it,end);
+	// Additional check to remove empty strings
 	tokenized.erase(
 		std::remove_if(tokenized.begin(),
 		tokenized.end(),
@@ -50,21 +51,26 @@ int main(int argc, char* argv[])
 		{
 			if (i == 0)
 			{
+
 				if (numisready == false)
 				{
 					FirstNum = stoi(aftertok[i]) - 1;
 					numisready = true;
 				}
 				aftertok[i] = to_string(stoi(aftertok[i]) - FirstNum);
+
 			}
 			else if (i == 1)
 			{
-				if (timeisready == false)
+				if (isdigit(aftertok[i][0]))
 				{
-					FirstTime = stod(aftertok[i]);
-					timeisready = true;
+					if (timeisready == false)
+					{
+						FirstTime = stod(aftertok[i]);
+						timeisready = true;
+					}
+					aftertok[i] = to_string(stod(aftertok[i]) - FirstTime);
 				}
-				aftertok[i] = to_string(stod(aftertok[i]) - FirstTime);
 			}
 			else if (i == 2)
 			{
